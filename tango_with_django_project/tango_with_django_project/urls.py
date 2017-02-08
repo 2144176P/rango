@@ -22,7 +22,7 @@ from django.conf.urls import include
 from rango import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+ #   url(r'^$', views.index, name='index'),
     url(r'^rango/', include('rango.urls')),
     # This maps any URL starting
     # with rango/ to the rango application
