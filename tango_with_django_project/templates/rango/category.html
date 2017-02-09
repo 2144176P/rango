@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+{% load staticfiles %}
+
 <html>
 <head>
     <title>Rango</title>
@@ -11,7 +14,7 @@
         {% if pages %}
             <ul>
             {% for page in pages %}
-                <li><a href="{{ page.url }}"{{ page.title }}</a></li>
+                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
             {% endfor %}
             </ul>
         {% else %}
@@ -21,6 +24,9 @@
         The specefied category does not exist!
     {% endif %}
     </div>
+    
+    <a href="/rango/">Index</a>
+    
 </body>
 
 </html>
