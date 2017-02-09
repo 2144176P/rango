@@ -2,6 +2,21 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from rango.models import Category
+from rango.models import Page
+
+def show_category(request, category_name_slug):
+    context_dict = {}
+
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+
+        pages = Page.objects.filter(category=category)
+
+        context_dict['pages'] = pages
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        context_dict['category'] = None
+        context_dict['pages'] = None
 
 def index(request):
 
@@ -10,7 +25,6 @@ def index(request):
 
     # NB the first parameter is the template we wish to use i.e rango/index.html
     return render(request, 'rango/index.html', context=context_dict)
-
 
 
 def about(request):
