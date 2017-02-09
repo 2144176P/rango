@@ -10,27 +10,35 @@ def populate():
 
     python_pages = [
         {"title": "Official Python Tutorial",
-         "url":"http://docs.python.org/2/tutorial/"},
+          "url":"http://docs.python.org/2/tutorial/",
+         "views":85856},
         {"title":"How to Think like a Computer Scientist",
-          "url":"http://www.greenteapress.com/thinkpython/"},
+          "url":"http://www.greenteapress.com/thinkpython/",
+         "views":11101},
         {"title":"Learn Python in 10 Minutes",
-          "url":"http://www.korokithakis.net/tutorials/python/"}
+          "url":"http://www.korokithakis.net/tutorials/python/",
+         "views":1010}
     ]
 
     django_pages = [
         {"title": "Official Django Tutorial",
-            "url":"https://docs.djangoproject.com/en/1.9/intro/tutorial01/"},
+            "url":"https://docs.djangoproject.com/en/1.9/intro/tutorial01/",
+         "views":65555},
         {"title": "Django Rocks",
-            "url":"http://www.djangorocks.com/"},
+            "url":"http://www.djangorocks.com/",
+         "views":8168},
         {"title": "How to Tango with Django",
-            "url":"http://www.tangowithdjango.com/"}
+            "url":"http://www.tangowithdjango.com/",
+         "views":1}
     ]
 
     other_pages = [
         {"title": "Bottle",
-            "url":"http://bottlepy.org/docs/dev/"},
+            "url":"http://bottlepy.org/docs/dev/",
+         "views":807713},
         {"title": "Flask",
-            "url":"http://flask.pocoo.org"}
+            "url":"http://flask.pocoo.org",
+         "views":127001}
     ]
 
     categories = {
@@ -42,14 +50,14 @@ def populate():
     for category, category_data in categories.items():
         cat = add_category(category, category_data["Views"])
         for page in category_data["Pages"]:
-            add_page(cat,page["title"], page["url"])
+            add_page(cat,page["title"], page["url"], page["views"])
 
     for cat in Category.objects.all():
         for page in Page.objects.filter(category=cat):
             print("- {0} - {1}".format(str(cat), str(page)))
 
 
-def add_page(category, title, url, views=0):
+def add_page(category, title, url, views):
     page = Page.objects.get_or_create(category=category, title=title)[0]
     page.url=url
     page.views=views
