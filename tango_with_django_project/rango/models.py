@@ -7,7 +7,12 @@ class Category(models.Model):
     likes = models.IntegerField(default=0)
     slug = models.SlugField(unique=True)
 
+    if views < 0:
+        views = 0
+
     def save(self, *args, **kwargs):
+        if self.views < 0:
+            self.views = 0
         self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
 
