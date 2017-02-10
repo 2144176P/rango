@@ -3,6 +3,20 @@ from django.http import HttpResponse
 
 from rango.models import Category
 from rango.models import Page
+from rango.forms import CategoryForm
+
+def index(request):
+
+    category_list = Category.objects.order_by('-likes')[:5]
+    page_list = Page.objects.order_by('-views')[:5]
+    context_dict = {'categories': category_list, 'pages': page_list}
+
+    # NB the first parameter is the template we wish to use i.e rango/index.html
+    return render(request, 'rango/index.html', context=context_dict)
+
+
+def about(request):
+    return render(request, 'rango/about.html')
 
 def show_category(request, category_name_slug):
     context_dict = {}
@@ -20,15 +34,16 @@ def show_category(request, category_name_slug):
 
     return render(request, 'rango/category.html', context_dict)
 
-def index(request):
+def add_category(request):
+    form = CategoryForm()
 
-    category_list = Category.objects.order_by('-likes')[:5]
-    page_list = Page.objects.order_by('-views')[:5]
-    context_dict = {'categories': category_list, 'pages': page_list}
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
 
-    # NB the first parameter is the template we wish to use i.e rango/index.html
-    return render(request, 'rango/index.html', context=context_dict)
+        if form.is_valid():
+            form.save(commit=True)
+            return index(request)
+        else:
+            print(form.errors)
 
-
-def about(request):
-    return render(request, 'rango/about.html')
+    return render(request, 'rango/add_category.html', {'form': form})
